@@ -18,7 +18,7 @@ title: ClearWater Analytica
 email: info@clrwater.io
 description: "ClearWater Analytica: HAB reports for Oradell Reservoir"
 baseurl: oradell_reports/  # the subpath of your site, e.g. /blog
-url: https://thepredictionlabllc.github.io/ # the base hostname & protocol for your site, e.g. http://example.com
+url: https://ClearWaterAnalytica.github.io/ # the base hostname & protocol for your site, e.g. http://example.com
 author:
   name: James Watson
 github_username: watsonjr
