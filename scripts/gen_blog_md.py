@@ -27,10 +27,10 @@ def gen_blog(lake_name):
   s3.download(zip_dir, "/tmp/")
   os.system(f"unzip -o /tmp/{zip_file} -d /tmp/")
 
-  os.system("/home/ubuntu/miniconda3/bin/python plot_climatology.py")
-  os.system("/home/ubuntu/miniconda3/bin/python plot_hotspots.py")
-  os.system("/home/ubuntu/miniconda3/bin/python plot_nowcast.py")
-  os.system("/home/ubuntu/miniconda3/bin/python plot_weather.py")
+  os.system("python plot_climatology.py")
+  os.system("python plot_hotspots.py")
+  os.system("python plot_nowcast.py")
+  os.system("python plot_weather.py")
 
   # Copy figures to assets folder
   os.system(f"cp Figs/* ../assets/images/{shrink_date}/.")
