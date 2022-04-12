@@ -28,10 +28,12 @@ def gen_blog(lake_name):
   os.system(f"unzip -o /tmp/{zip_file} -d /tmp/")
 
   # Run scripts
-  import plot_climatology
-  import plot_hotspots
-  import plot_nowcast
-  import plot_weather
+  #import plot_climatology
+  #import plot_hotspots
+  #import plot_nowcast
+  #import plot_weather
+
+  os.system("python plot_hotspots.py")
 
   # Copy figures to assets folder
   os.system(f"cp Figs/* ../assets/images/{shrink_date}/.")
