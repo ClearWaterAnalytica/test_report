@@ -67,8 +67,10 @@ def gen_blog(lake_name):
 if __name__ == "__main__":
 
   # git@github.com:ClearWaterAnalytica/oradell_reports.git
-
   lake_name = 'nj_oradell_reservoir'
+
+  zip_dir = f"clw-us/{lake_name}/misc/dashboard_zip/{lake_name}_dashboard.zip"
+  zip_file = zip_dir.split("/")[-1]
 
   # Get previous file index num
   last_post = sorted(glob.glob("../_posts/*.md"))[-1]
