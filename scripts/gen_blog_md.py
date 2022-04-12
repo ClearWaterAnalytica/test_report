@@ -7,9 +7,16 @@ from auth import *
 
 # git@github.com:ClearWaterAnalytica/oradell_reports.git
 
-
-
 lake_name = 'nj_oradell_reservoir'
+
+# Get dates
+date = time.strftime("%Y-%m-%d")
+abb_date = time.strftime("%b %d, %Y")
+shrink_date = time.strftime("%Y%m%d")
+
+# Generate folders
+os.system(f"mkdir Figs")
+os.system(f"mkdir ../assets/images/{shrink_date}/")
 
 # Download zip and unzip
 repo_dir = f"/home/ubuntu/dashboard_{lake_name}"
@@ -23,16 +30,16 @@ s3.download(zip_dir, "/tmp/")
 os.system(f"unzip -o /tmp/{zip_file} -d /tmp/")
 
 
+# Run scripts
+import plot_climatology
+import plot_hotspots
+import plot_nowcast
+import plot_weather
+
+# Copy figures to assets folder
 
 
 
-date = time.strftime("%Y-%m-%d")
-abb_date = time.strftime("%b %d, %Y")
-shrink_date = time.strftime("%Y%m%d")
-
-# Generate folders
-os.system(f"mkdir Figs")
-os.system(f"mkdir ../assets/images/{shrink_date}/")
 
 # Get previous file index num
 last_post = sorted(glob.glob("../_posts/*.md"))[-1]
