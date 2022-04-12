@@ -27,12 +27,6 @@ def gen_blog(lake_name):
   s3.download(zip_dir, "/tmp/")
   os.system(f"unzip -o /tmp/{zip_file} -d /tmp/")
 
-  # Run scripts
-  #import plot_climatology
-  #import plot_hotspots
-  #import plot_nowcast
-  #import plot_weather
-
   os.system("/home/ubuntu/miniconda3/bin/python plot_climatology.py")
   os.system("/home/ubuntu/miniconda3/bin/python plot_hotspots.py")
   os.system("/home/ubuntu/miniconda3/bin/python plot_nowcast.py")
