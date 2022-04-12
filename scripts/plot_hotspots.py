@@ -100,7 +100,7 @@ center_pt = [np.mean(data.lat), np.mean(data.lon)] # lat/lon of One World Trade 
 zoom = 0.04 # for zooming out of center point
 extent = [center_pt[1]-(zoom*2.0),center_pt[1]+(zoom*2.0), \
 	center_pt[0]-zoom,center_pt[0]+zoom] # adjust to zoom
-ax1.set_extent(extent, crs=ccrs.Mercator()) # set extents
+ax1.set_extent(extent) # set extents
 
 scale = np.ceil(-np.sqrt(2)*np.log(np.divide(zoom,350.0))) # empirical solve for scale based on zoom
 scale = (scale<14) and scale or 14 # scale cannot be larger than 19
