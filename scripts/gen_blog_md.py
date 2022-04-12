@@ -37,34 +37,44 @@ import plot_nowcast
 import plot_weather
 
 # Copy figures to assets folder
+os.system(f"cp Figs/* ../assets/images/{shrink_date}/.")
+
 
 
 
 
 # Get previous file index num
 last_post = sorted(glob.glob("../_posts/*.md"))[-1]
-last_num = int(last_post.split("-")[-1].replace("blog", "").replace(".md", ""))
-new_num = str(last_num + 1).zfill(3)
 
-# Copy skel_post.md to _post
-os.system(f"cp skel_post.md ../_posts/{date}-blog{new_num}.md")
+# Check if date exists
+check_dat = last_post.split("/")[-1].split("-blog")[0]
 
-# Replace dates and folder directories
-# Read in the file
-with open(f"../_posts/{date}-blog{new_num}.md", 'r') as file :
-  filedata = file.read()
+if check_dat != date:
 
-# Replace the target string
-filedata = filedata.replace("{abb_date}", abb_date)
-filedata = filedata.replace("{shrink_date}", shrink_date)
+  last_num = int(last_post.split("-")[-1].replace("blog", "").replace(".md", ""))
+  new_num = str(last_num + 1).zfill(3)
 
-# Write the file out again
-with open(f"../_posts/{date}-blog{new_num}.md", 'w') as file:
-  file.write(filedata)
+  # Copy skel_post.md to _post
+  os.system(f"cp skel_post.md ../_posts/{date}-blog{new_num}.md")
 
+  # Replace dates and folder directories
+  # Read in the file
+  with open(f"../_posts/{date}-blog{new_num}.md", 'r') as file :
+    filedata = file.read()
 
-with open("test.txt", "w") as w:
-  w.write(text)
+  # Replace the target string
+  filedata = filedata.replace("{abb_date}", abb_date)
+  filedata = filedata.replace("{shrink_date}", shrink_date)
+
+  # Write the file out again
+  with open(f"../_posts/{date}-blog{new_num}.md", 'w') as file:
+    file.write(filedata)
+
+# Git commit/push
+os.system(f"cd .. && git add -A assets/images/{shrink_date}/*")
+os.system(f"cd .. && git add -A _posts/*")
+os.system(f"cd .. && git commit -m 'daily blog update'")
+os.system(f"cd .. && git push")
 
 
 os.system(f"rm -rfv Figs/")
