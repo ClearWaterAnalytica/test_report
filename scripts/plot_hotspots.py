@@ -13,7 +13,6 @@ from PIL import Image
 from scipy.interpolate import griddata
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-
 from mpl_toolkits import axes_grid1
 
 def add_colorbar(im, aspect=20, pad_fraction=0.5, **kwargs):
@@ -101,7 +100,7 @@ center_pt = [np.mean(data.lat), np.mean(data.lon)] # lat/lon of One World Trade 
 zoom = 0.04 # for zooming out of center point
 extent = [center_pt[1]-(zoom*2.0),center_pt[1]+(zoom*2.0), \
 	center_pt[0]-zoom,center_pt[0]+zoom] # adjust to zoom
-ax1.set_extent(extent) # set extents
+ax1.set_extent(extent, crs=osm_img.crs) # set extents
 
 scale = np.ceil(-np.sqrt(2)*np.log(np.divide(zoom,350.0))) # empirical solve for scale based on zoom
 scale = (scale<14) and scale or 14 # scale cannot be larger than 19
