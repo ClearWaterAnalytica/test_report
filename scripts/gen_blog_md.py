@@ -28,7 +28,8 @@ def gen_blog(lake_name):
   os.system(f"unzip -o /tmp/{zip_file} -d /tmp/")
 
   os.system("python plot_climatology.py")
-  os.system("python plot_hotspots.py")
+  os.system("python plot_cyan.py")
+  os.system("python plot_chla.py")
   os.system("python plot_nowcast.py")
   os.system("python plot_weather.py")
 

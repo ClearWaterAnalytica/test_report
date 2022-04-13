@@ -13,6 +13,7 @@ from PIL import Image
 from scipy.interpolate import griddata
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
+
 from mpl_toolkits import axes_grid1
 
 def add_colorbar(im, aspect=20, pad_fraction=0.5, **kwargs):
@@ -46,16 +47,16 @@ osm_img = cimgt.QuadtreeTiles() # spoofed, downloaded street map << Sat image
 
 ################ SATELLITE CHL-A ####################
 #path = "./Data/or_detroit_lake_dashboard/proc_dashboard_data/"
-path = "/tmp/nj_oradell_reservoir_dashboard/proc_dashboard_data/"
-files = sorted(glob.glob(path+"satellite_map/*.csv"))
+path = "./Data/nj_oradell_reservoir_dashboard_2/proc_dashboard_data/"
+files = sorted(glob.glob(path+"cyan_map/*.csv"))
 
 ##! find colorbounds
 #chl_min = [] 
 #chl_min = [] 
 #for i in np.arange(int(len(files)/2),len(files)):
 #	data = pd.read_csv(files[i],parse_dates=["date"])
-#	chl_min = np.append(chl_min,np.percentile(data['Chlorophyll'],5))
-#	chl_max = np.append(chl_max,np.percentile(data['Chlorophyll'],95))
+#	chl_min = np.append(chl_min,np.percentile(data['Cyan'],5))
+#	chl_max = np.append(chl_max,np.percentile(data['Cyan'],95))
 #	print(i)
 #chl_min = np.percentile(chl_min,5)
 #chl_max = np.percentile(chl_max,95)
@@ -74,9 +75,7 @@ lats = data["lat"]
 df = data.copy()
 for i in np.arange(-X,-1):
     df1 = pd.read_csv(files[i],parse_dates=["date"])
-    df["Chlorophyll"] = (df["Chlorophyll"] + griddata((df1["lon"],df1["lat"]), df1["Chlorophyll"], 
-            (lons, lats), method='nearest')) / 2
-
+    df["log_CI_cells_mL"] = (df["log_CI_cells_mL"] + griddata((df1["lon"],df1["lat"]), df1["log_CI_cells_mL"],(lons, lats), method='nearest')) / 2
 
 
 
@@ -85,19 +84,18 @@ for i in np.arange(-X,-1):
 #! Data to plot
 x = np.asarray(df.lon)
 y = np.asarray(df.lat)
-z = np.asarray(df.Chlorophyll)
+z = np.asarray(df.log_CI_cells_mL)
 ID = np.where(z!=0)[0]
-x = x[ID]; y = y[ID]; z = z[ID]
-zl = np.log10(z+1)
+x = x[ID]; y = y[ID]; z = np.exp(z[ID])
 
 fig = plt.figure(figsize=(7,5.5)) # open matplotlib figure
 ax1 = plt.axes(projection=osm_img.crs) # project using coordinate reference system (CRS) of street map
 
 date_time = data.date[0].strftime("%m/%d/%Y")
-plt.title("Chlorophyll-a (Sentinel 2a): " + date_time)
+plt.title("CyAN (cells per ml): " + date_time)
 
 center_pt = [np.mean(data.lat), np.mean(data.lon)] # lat/lon of One World Trade Center in NYC
-zoom = 0.04 # for zooming out of center point
+zoom = 0.025 # for zooming out of center point
 extent = [center_pt[1]-(zoom*2.0),center_pt[1]+(zoom*2.0), \
 	center_pt[0]-zoom,center_pt[0]+zoom] # adjust to zoom
 ax1.set_extent(extent) # set extents
@@ -113,32 +111,22 @@ ax1.add_image(osm_img, int(scale)) # add OSM with zoom specification
 # -- 14+   = extremely fine image, select for roads, blocks, buildings
 
 #! colorlimits (in this specific data)
-vmin = np.percentile(z,5)
-vmax = np.percentile(z,95)
+vmin = 6000
+vmax = 100000
 
-#! plot points
-im = ax1.scatter(x,y,3,z,marker='o',alpha=.9,vmin=vmin,vmax=vmax,transform=ccrs.PlateCarree(),cmap="jet",edgecolors='none')
+#! Plot points
+im = ax1.scatter(x,y,100,z,marker='s',alpha=.9,vmin=vmin,vmax=vmax,transform=ccrs.PlateCarree(),cmap="jet",edgecolors='none')
 
-#import scipy as sp
-#zz = sp.ndimage.uniform_filter(z, size=3, mode='constant')
-#ax1.tricontourf(x,y,zz, 20,transform=ccrs.PlateCarree(),cmap="jet")
+#! Colorbar
+import matplotlib.ticker as ticker
+def fmt(x, pos):
+    a, b = '{:.1e}'.format(x).split('e')
+    b = int(b)
+    return r'${} x 10^{{{}}}$'.format(a, b)
 
-#from scipy import interpolate
-#f = interpolate.interp2d(x, y, z, kind='cubic')
-#fig = plt.figure(figsize=(7,5.5)) # open matplotlib figure
-#xx, yy = np.meshgrid(x, y)
-#zz = f(xx.flatten(),yy.flatten())
-#plt.pcolormesh(xx, yy, zz, cmap="jet")
-#plt.show()
-#
-#cax = fig.add_axes([ax1.get_position().x1+0.01,ax1.get_position().y0,0.02,ax1.get_position().height])
-#cbar = plt.colorbar(im,cax=cax)
-#ticks = cbar.get_ticks()
-#ticks = len(ticks)*[None]
-#ticks[0] = "Low"
-#ticks[-1] = "High"
-#cbar.ax.set_yticklabels(ticks)
+cax = fig.add_axes([ax1.get_position().x1+0.01,ax1.get_position().y0,0.02,ax1.get_position().height])
+cbar = plt.colorbar(im,cax=cax,format=ticker.FuncFormatter(fmt))
 
-plt.tight_layout()
-plt.savefig("./Figs/Fig_chla_week.png",dpi=300)
+#! Save
+plt.savefig("./Figs/Fig_cyan.png",dpi=300,bbox_inches='tight')
 plt.close("all")
