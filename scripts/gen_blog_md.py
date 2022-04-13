@@ -43,7 +43,6 @@ def gen_blog(lake_name):
   os.system(f"cp skel_post.md ../_posts/{date}-blog{new_num}.md")
 
   # Replace dates and folder directories
-  # Read in the file
   with open(f"../_posts/{date}-blog{new_num}.md", 'r') as file :
     filedata = file.read()
 
