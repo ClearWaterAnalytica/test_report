@@ -3,7 +3,11 @@ import os
 import time
 import s3fs
 
-from auth import *
+import botocore.session
+
+session = botocore.session.get_session()
+AWS_SECRET = session.get_credentials().secret_key
+AWS_ACCESS_KEY = session.get_credentials().access_key 
 
 def gen_blog(lake_name):
 
