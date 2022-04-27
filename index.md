@@ -11,21 +11,21 @@ __Probability of occurrence (%) of an algal bloom from two weeks ago (left) and 
 
 ## Hotspot Analysis - Chlorophyll-a
 This map shows you the latest estimates of __chlorophyll-a__ from the Sentinel 2a satellite. Note that the color scale is normalized to highlight the hotspots in the image relative to yearly maxima and minima. The colorscale does not provide an indication of the absolute amount of chlorophyll-a in the water and should be interpreted as an "index" of chlorophyll-a.
-![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/20220427/Fig_chla.png){:             width="600px"}{: .align-center}
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/20220427/Fig_chla.png){:             width="800px"}{: .align-center}
 <br clear="all" />
 __Latest chlorophyll-a map from the Sentinel 2a satelllite.__
 
 ## Hotspot Analysis - CyAN
 This map shows you the latest estimates of the concentration of cyanobacteria (cells/ml) from the EPA CyAN program.
-![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/20220427/Fig_cyan.png){: width="600px"}{: .align-center}
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/20220427/Fig_cyan.png){: width="800px"}{: .align-center}
 <br clear="all" />
 __Latest CyAN map from the EPA.__
 
 ## Depth Profile
 This heatmap shows you measurements from a vertical profiler installed in the lake.
-![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/20220427/Fig_profiler.png){: width="600px"}{: .align-center}
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/20220427/Fig_profiler.png){: width="700px"}{: .align-center}
 <br clear="all" />
-__Latest CyAN map from the EPA.__
+__Depth profile.__
 
 
 ## Where we are in the season
